@@ -15,12 +15,11 @@ def create_api(credentials):
 
 def twitter_rates():
     returned = 0
-    stats = api.rate_limit_status()  #stats['resources'].keys()
+    stats = api.rate_limit_status() 
     for akey in stats['resources'].keys():
         if type(stats['resources'][akey]) == dict:
             for anotherkey in stats['resources'][akey].keys():
                 if type(stats['resources'][akey][anotherkey]) == dict:
-                    #print(akey, anotherkey, stats['resources'][akey][anotherkey])
                     limit = (stats['resources'][akey][anotherkey]['limit'])
                     remaining = (stats['resources'][akey][anotherkey]['remaining'])
                     used = limit - remaining
@@ -30,7 +29,7 @@ def twitter_rates():
                     else:
                         pass
                 else:
-                    pass  #print("Passing")  #stats['resources'][akey]
+                    pass 
         else:
             print(akey, stats['resources'][akey])
             print(stats['resources'][akey].keys())
@@ -44,7 +43,6 @@ def twitter_rates():
     
     return returned
 
-
 t = Translate()
 search = t.read_txt_file()
 number_tweets = 8
@@ -53,11 +51,11 @@ print('Words done')
 
 api = create_api(get_credentials())
 remaining = twitter_rates()
+print('API done')
 
 while True:
 
     api = create_api(get_credentials())
-    print('API done')
 
     for word in search:
         for tweet in tweepy.Cursor(api.search, q=word).items(number_tweets):
@@ -66,6 +64,7 @@ while True:
                 sleep(60*15)
                 count = 0
                 api = create_api(get_credentials())
+                remaining = twitter_rates()
                 print('API done')
 
             try:
