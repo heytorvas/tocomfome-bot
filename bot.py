@@ -44,8 +44,8 @@ def twitter_rates():
     return returned
 
 t = Translate()
-search = t.read_txt_file()
-number_tweets = 8
+search = 'fome'
+number_tweets = 100
 count = 0
 print('Words done')
 
@@ -57,32 +57,29 @@ while True:
 
     api = create_api(get_credentials())
 
-    for word in search:
-        for tweet in tweepy.Cursor(api.search, q=word).items(number_tweets):
-            if count == remaining:
-                print('Sleep')
-                sleep(60*15)
-                count = 0
-                api = create_api(get_credentials())
-                remaining = twitter_rates()
-                print('API done')
+    for tweet in tweepy.Cursor(api.search, q=search, since='2020-11-09').items(number_tweets):
+        if count == remaining:
+            print('Sleep')
+            sleep(60*15)
+            count = 0
+            api = create_api(get_credentials())
+            remaining = twitter_rates()
+            print('API done')
 
-            try:
-                tweet.favorite()
-                print('Tweet liked')
+        try:
+            tweet.favorite()
+            print('Tweet liked')
+            count += 1
+    
+        except tweepy.TweepError as e:
+            if str(e.reason) == 'Twitter error response: status code = 429' :
+                print(e.reason)
                 count += 1
-        
-            except tweepy.TweepError as e:
-                if str(e.reason) == 'Twitter error response: status code = 429' :
-                    print(e.reason)
-                    count += 1
-                    continue
-                else:
-                    print(e.reason)
-                    count += 1
-                    continue
-                
-            except StopIteration:
-                break
-
-        print(word, ' done')
+                continue
+            else:
+                print(e.reason)
+                count += 1
+                continue
+            
+        except StopIteration:
+            break

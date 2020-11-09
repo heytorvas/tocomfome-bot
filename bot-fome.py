@@ -13,38 +13,37 @@ def create_api(credentials):
     try:
         api.verify_credentials()
     except Exception as e:
-        print("Error creating API", exc_info=True)
+        print("Error creating API")
         raise e
     print("API created")
     return api
 
-class FavRetweetListener(tweepy.StreamListener):
-    def __init__(self, api):
-        self.api = api
-        self.me = api.me()
+class FavListener(tweepy.StreamListener):
 
-    def on_status(self, tweet):
-        if tweet.in_reply_to_status_id is not None or \
-            tweet.user.id == self.me.id:
-            return
-        if not tweet.favorited:
-            try:
-                tweet.favorite()
-                print("Tweet liked with id {}".format(tweet.id))
-            except Exception as e:
-                print("Tweet error with id {}".format(tweet.id))
+    def on_status(self, status):
+
+        number = 1
+        search = 'fome'
+
+        for tweet in tweepy.Cursor(api.search, search, since='2020-11-09').items():
+            if not tweet.favorited:
+                try:
+                    tweet.favorite()
+                    print("Tweet liked with id {}".format(tweet.id))
+                except Exception as e:
+                    print("Tweet error with id {}".format(tweet.id))
 
     def on_error(self, status):
         print(status)
 
-def main(words):
-    api = create_api(get_credentials())
-    tweets_listener = FavRetweetListener(api)
-    stream = tweepy.Stream(api.auth, tweets_listener)
-    stream.filter(track=words)
 
 if __name__ == "__main__":
     # t = Translate()
     # words = t.read_txt_file()
-    words = 'fome'
-    main(words)
+    # words = 'fome'
+    # main(words)
+
+    streamer = FavListener()
+    api = create_api(get_credentials())
+    stream = tweepy.Stream(auth=api.auth, listener=FavListener())
+    stream.filter(track=['fome'], )
