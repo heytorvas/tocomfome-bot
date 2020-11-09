@@ -24,15 +24,15 @@ class FavRetweetListener(tweepy.StreamListener):
         self.me = api.me()
 
     def on_status(self, tweet):
-        print("Processing tweet id {}".format(tweet.id))
         if tweet.in_reply_to_status_id is not None or \
             tweet.user.id == self.me.id:
             return
         if not tweet.favorited:
             try:
                 tweet.favorite()
+                print("Tweet liked with id {}".format(tweet.id))
             except Exception as e:
-                print("Error on fav")
+                print("Tweet error with id {}".format(tweet.id))
 
     def on_error(self, status):
         print(status)
