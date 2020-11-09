@@ -12,32 +12,28 @@ def create_api(credentials):
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     return api
 
-credentials = get_credentials()
-api = create_api(credentials)
-print('API done')
-
 t = Translate()
 search = t.read_txt_file()
 number_tweets = 8
+count = 0
 print('Words done')
 
-log_error = []
-count = 0
-
 while True:
+
     if count > 170:
         print('Sleep')
         sleep(60*15)
-        api = create_api(credentials)
         count = 0
-        continue
+
+    api = create_api(get_credentials())
+    print('API done')
 
     for word in search:
         for tweet in tweepy.Cursor(api.search, q=word).items(number_tweets):
             try:
                 tweet.favorite()
-                count += 1
                 print('Tweet liked')
+                count += 1
         
             except tweepy.TweepError as e:
                 if str(e.reason) == 'Twitter error response: status code = 429' :
@@ -53,4 +49,3 @@ while True:
                 break
 
         print(word, ' done')
-    
