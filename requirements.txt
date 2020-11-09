@@ -1,2 +1,2 @@
-tweepy
-translators
+translators==4.7.9
+tweepy==3.9.0
