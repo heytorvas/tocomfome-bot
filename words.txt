@@ -9,14 +9,3 @@ faim
 голод
 飢え
 fome
-Affamato
-hungry
-饥饿
-hongerig
-hungrig
-głodny
-hambriento
-affamé
-голоден
-空腹
-faminto
