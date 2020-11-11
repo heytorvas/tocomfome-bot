@@ -36,19 +36,3 @@ class Translate():
                     f.write("{}\n".format(words[i]))
             f.close()
 
-    def read_txt_file(self):
-        txt_list = ''
-        with open("words.txt","r") as f:
-            txt_list = f.readlines()
-            f.close()
-        
-        words_list = []
-        for i in txt_list:
-            words_list.append(i.replace('\n', ''))
-
-        return words_list
-
-
-# t = Translate()
-# t.read_txt_file()
-# t.write_txt_file()

@@ -12,6 +12,18 @@ def get_words():
     f = open('words.txt', 'r')
     return list(f)
 
+def read_txt_file():
+    txt_list = ''
+    with open("words.txt","r") as f:
+        txt_list = f.readlines()
+        f.close()
+    
+    words_list = []
+    for i in txt_list:
+        words_list.append(i.replace('\n', ''))
+
+    return words_list
+
 def create_api(credentials):
     auth = tweepy.OAuthHandler(credentials["CONSUMER_KEY"], credentials["CONSUMER_SECRET"])
     auth.set_access_token(credentials["ACCESS_TOKEN"], credentials["ACCESS_TOKEN_SECRET"])
@@ -31,8 +43,7 @@ while True:
     api = create_api(get_credentials())
     print('API done')
 
-    t = Translate()
-    phrases = t.read_txt_file()
+    phrases = read_txt_file()
 
     for phrase in phrases:
         tweet(phrase)
