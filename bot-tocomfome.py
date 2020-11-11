@@ -2,7 +2,6 @@
 
 import tweepy, json
 from time import sleep
-from translate import Translate
 
 def get_credentials():
     with open('config.json') as config_file:
