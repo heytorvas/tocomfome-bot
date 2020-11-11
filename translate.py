@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import translators as ts
 
 # print(ts._deepl.language_map) # 'it', 'pt', 'zh', 'nl', 'de', 'pl', 'es', 'fr', 'ru', 'ja'
@@ -8,8 +10,8 @@ class Translate():
         pass
 
     def get_words_translated(self):
-        words = ['fome', 'faminto']
-        languages_list = ['it', 'en', 'zh', 'nl', 'de', 'pl', 'es', 'fr', 'ru', 'ja']
+        words = ['tô com fome']
+        languages_list = ['it', 'en', 'zh', 'nl', 'de', 'pl', 'es', 'fr', 'ru', 'ja', 'hi']
 
         words_list = []
         for j in words:
