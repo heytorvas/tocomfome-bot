@@ -20,7 +20,7 @@ def tweet(phrase):
         sleep(60*60*3)
     except tweepy.TweepError as e:
         print(e.reason)
-        sleep(2)
+        sleep(60*60*3)
 
 while True:
     api = create_api(get_credentials())
